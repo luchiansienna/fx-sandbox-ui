@@ -8,7 +8,9 @@ export type Order = {
   quantity: number;
   limitPrice: number;
   status: string;
+  createdAt: string;
   fillPrice: number | null;
+  filledAt: string | null;
 };
 export type Position = {
   pair: string;
