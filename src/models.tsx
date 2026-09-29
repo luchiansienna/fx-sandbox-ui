@@ -1,8 +1,10 @@
+import { CurrencyPair } from "./constants/currencyPairs";
+import { OrderSide } from "./constants/orderSide";
 
 export type Order = {
   id: string;
-  pair: string;
-  side: string;
+  pair: CurrencyPair;
+  side: OrderSide;
   quantity: number;
   limitPrice: number;
   status: string;
