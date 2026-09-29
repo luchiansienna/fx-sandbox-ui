@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { Order } from "../models";
 import { OrderSide } from "../constants/orderSide";
 import { RecentActivity } from "./RecentActivity";
+import { OrderStatus } from "../constants/orderStatus";
 
 function createOrder(overrides: Partial<Order> = {}): Order {
   return {
@@ -11,7 +12,7 @@ function createOrder(overrides: Partial<Order> = {}): Order {
     side: OrderSide.Buy,
     quantity: 1000,
     limitPrice: 0.88,
-    status: "Filled",
+    status: OrderStatus.Filled,
     createdAt: "2026-09-29T12:00:00Z",
     fillPrice: 0.875,
     filledAt: "2026-09-29T12:00:01Z",
@@ -45,7 +46,7 @@ describe("RecentActivity", () => {
       ),
     ).toBeInTheDocument();
 
-    expect(screen.getByText("Filled")).toBeInTheDocument();
+    expect(screen.getByText(OrderStatus.Filled)).toBeInTheDocument();
 
     // The limit differs from the execution price and should not be shown.
     expect(
@@ -65,7 +66,7 @@ describe("RecentActivity", () => {
       pair: "USD/GBP",
       quantity: 2500,
       limitPrice: 0.76,
-      status: "Cancelled",
+      status: OrderStatus.Cancelled,
       fillPrice: null,
       filledAt: null,
     });
@@ -80,7 +81,7 @@ describe("RecentActivity", () => {
       ),
     ).toBeInTheDocument();
 
-    expect(screen.getByText("Cancelled")).toBeInTheDocument();
+    expect(screen.getByText(OrderStatus.Cancelled)).toBeInTheDocument();
   });
 
   it("renders multiple activities in the order supplied", () => {
@@ -91,7 +92,7 @@ describe("RecentActivity", () => {
             id: "order-2",
             side: OrderSide.Sell,
             pair: "USD/CHF",
-            status: "Cancelled",
+            status: OrderStatus.Cancelled,
             fillPrice: null,
             filledAt: null,
           }),
@@ -109,8 +110,8 @@ describe("RecentActivity", () => {
       "Buy USD/EUR",
     ]);
 
-    expect(screen.getByText("Cancelled")).toBeInTheDocument();
-    expect(screen.getByText("Filled")).toBeInTheDocument();
+    expect(screen.getByText(OrderStatus.Cancelled)).toBeInTheDocument();
+    expect(screen.getByText(OrderStatus.Filled)).toBeInTheDocument();
   });
 
   it("shows activity when orders arrive after the initial render", () => {

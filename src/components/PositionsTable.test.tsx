@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { Snapshot } from "../models";
 import { signed } from "../utils/format";
 import { PositionsTable } from "./PositionsTable";
+import { PositionDirection } from "../constants/positionDirection";
 
 type Position = Snapshot["positions"][number];
 
@@ -94,8 +95,8 @@ describe("PositionsTable", () => {
   });
 
   it.each([
-    { quantity: 1500, direction: "Long" },
-    { quantity: -1500, direction: "Short" },
+    { quantity: 1500, direction: PositionDirection.Long },
+    { quantity: -1500, direction: PositionDirection.Short },
   ])(
     "displays quantity $quantity as an absolute size with $direction direction",
     ({ quantity, direction }) => {

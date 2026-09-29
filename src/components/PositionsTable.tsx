@@ -1,3 +1,4 @@
+import { PositionDirection } from "../constants/positionDirection";
 import type { Snapshot } from "../models";
 import { price, signed } from "../utils/format";
 interface PositionsTableProps {
@@ -29,7 +30,11 @@ export function PositionsTable({ state }: PositionsTableProps) {
                 <td>{p.pair}</td>
                 <td>
                   {Math.abs(p.quantity).toLocaleString()}{" "}
-                  <em>{p.quantity > 0 ? "Long" : "Short"}</em>
+                  <em>
+                    {p.quantity > 0
+                        ? PositionDirection.Long
+                        : PositionDirection.Short}
+                    </em>
                 </td>
                 <td>{price(p.averagePrice)}</td>
                 <td>{price(p.spot)}</td>

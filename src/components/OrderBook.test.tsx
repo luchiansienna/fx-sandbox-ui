@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import type { Order } from "../models";
 import { OrderSide } from "../constants/orderSide";
 import { OrderBook } from "./OrderBook";
+import { OrderStatus } from "../constants/orderStatus";
 
 type OrderBookProps = ComponentProps<typeof OrderBook>;
 
@@ -70,7 +71,7 @@ describe("OrderBook", () => {
     expect(cells[0]).toHaveTextContent("Buy");
     expect(cells[1]).toHaveTextContent(order.quantity.toLocaleString());
     expect(cells[2]).toHaveTextContent("0.875000");
-    expect(cells[3]).toHaveTextContent("Open");
+    expect(cells[3]).toHaveTextContent(OrderStatus.Open);
 
     expect(
       within(row).getByRole("button", { name: "Cancel" }),

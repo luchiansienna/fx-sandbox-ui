@@ -5,6 +5,7 @@ import { request } from "../api/request";
 import { price } from "../utils/format";
 import { CURRENCY_PAIRS, type CurrencyPair } from "../constants/currencyPairs";
 import { OrderSide } from "../constants/orderSide";
+import { OrderStatus } from "../constants/orderStatus";
 
 export function useTradingSandbox() {
   const previousOrderStatuses = useRef<Map<string, string>>(new Map());
@@ -61,8 +62,8 @@ export function useTradingSandbox() {
 
     const filledOrders = next.orders.filter(
       (order) =>
-        order.status === "Filled" &&
-        previousOrderStatuses.current.get(order.id) === "Open",
+        order.status === OrderStatus.Filled &&
+        previousOrderStatuses.current.get(order.id) === OrderStatus.Open,
     );
 
     previousOrderStatuses.current = new Map(
@@ -136,7 +137,7 @@ export function useTradingSandbox() {
         }),
       });
       setNotice(
-        order.status === "Filled"
+        order.status === OrderStatus.Filled
           ? `Order filled at ${price(order.fillPrice!)}.`
           : "Limit order placed. Waiting for spot to reach your price.",
       );
@@ -160,10 +161,10 @@ export function useTradingSandbox() {
       setBusy(false);
     }
   }
-  const pending = state?.orders.filter((o) => o.status === "Open") ?? [];
+  const pending = state?.orders.filter((o) => o.status === OrderStatus.Open) ?? [];
   const done =
     state?.orders
-      .filter((o) => o.status !== "Open")
+      .filter((o) => o.status !== OrderStatus.Open)
       .slice(-12)
       .reverse() ?? [];
 
