@@ -33,9 +33,11 @@ export function AccountSummary({ state }: AccountSummaryProps) {
           <small>
             {i === 0
               ? "Started with $10,000"
-              : i === 3
-                ? "$10,000 fixed exposure cap"
-                : "USD - profit/loss from closed positions"}
+              : i === 1
+                ? "USD · open positions at current spot"
+                : i === 2
+                  ? "USD · profit/loss from closed positions"
+                  : "$10,000 fixed exposure cap"}
           </small>
         </article>
       ))}
