@@ -45,3 +45,19 @@ npm run build
 Build output is written to `dist/`. When deploying, configure the host to forward `/api` requests to the backend; the Vite development proxy is not included in the production build.
 
 Simulation only. Account data is held by the API and resets when the API restarts.
+
+## Tests
+
+Run the component tests once:
+
+```bash
+npm run test:run
+```
+
+Run tests in watch mode during development:
+
+```bash
+npm test
+```
+
+Tests use Vitest and React Testing Library to cover the MarketWatch component, including currency selection, displayed rates, loading states and price changes.
