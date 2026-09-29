@@ -1,8 +1,7 @@
 import type { FormEvent } from "react";
 import type { Snapshot } from "../models";
 import { price } from "../utils/format";
-import { CURRENCY_PAIRS } from "../constants/currencyPairs";
-import type { CurrencyPair } from "../constants/currencyPairs";
+import { CURRENCY_PAIRS, type CurrencyPair } from "../constants/currencyPairs";
 
 interface OrderTicketProps {
   pair: CurrencyPair;
