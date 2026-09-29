@@ -6,6 +6,7 @@ import { price } from "../utils/format";
 import { CURRENCY_PAIRS, type CurrencyPair } from "../constants/currencyPairs";
 import { OrderSide } from "../constants/orderSide";
 import { OrderStatus } from "../constants/orderStatus";
+import { API_ENDPOINTS } from "../api/endpoints";
 
 export function useTradingSandbox() {
   const previousOrderStatuses = useRef<Map<string, string>>(new Map());
@@ -88,7 +89,7 @@ export function useTradingSandbox() {
     let timer: ReturnType<typeof setTimeout>;
     async function poll() {
       try {
-        const next = await request<Snapshot>("/api/state");
+        const next = await request<Snapshot>(API_ENDPOINTS.state);
         if (active) {
           accept(next);
           setConnected(true);
@@ -126,7 +127,7 @@ export function useTradingSandbox() {
     setError("");
     setNotice("");
     try {
-      const order = await request<Order>("/api/orders", {
+      const order = await request<Order>(API_ENDPOINTS.orders, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -141,7 +142,7 @@ export function useTradingSandbox() {
           ? `Order filled at ${price(order.fillPrice!)}.`
           : "Limit order placed. Waiting for spot to reach your price.",
       );
-      accept(await request<Snapshot>("/api/state"));
+      accept(await request<Snapshot>(API_ENDPOINTS.state));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unable to place order.");
     } finally {
@@ -152,8 +153,8 @@ export function useTradingSandbox() {
     setBusy(true);
     setError("");
     try {
-      await request<void>(`/api/orders/${id}`, { method: "DELETE" });
-      accept(await request<Snapshot>("/api/state"));
+      await request<void>(API_ENDPOINTS.order(id), { method: "DELETE" });
+      accept(await request<Snapshot>(API_ENDPOINTS.state));
       setNotice("Order cancelled.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unable to cancel.");
