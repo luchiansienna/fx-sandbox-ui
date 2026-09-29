@@ -2,10 +2,11 @@ import type { FormEvent } from "react";
 import type { Snapshot } from "../models";
 import { price } from "../utils/format";
 import { CURRENCY_PAIRS, type CurrencyPair } from "../constants/currencyPairs";
+import { ORDER_SIDES, OrderSide } from "../constants/orderSide";
 
 interface OrderTicketProps {
   pair: CurrencyPair;
-  side: string;
+  side: OrderSide;
   quantity: string;
   limit: string;
   state: Snapshot | null;
@@ -14,7 +15,7 @@ interface OrderTicketProps {
   error: string;
   notice: string;
   setPair: (pair: CurrencyPair) => void;
-  setSide: (side: string) => void;
+  setSide: (side: OrderSide) => void;
   setQuantity: (quantity: string) => void;
   setLimit: (limit: string) => void;
   submit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
@@ -68,18 +69,18 @@ export function OrderTicket({
         <fieldset>
           <legend>Direction</legend>
           <div className="side-buttons">
-            {["Buy", "Sell"].map((s) => (
-              <button
-                key={s}
+            {ORDER_SIDES.map((orderSide) => (
+                <button
+                key={orderSide}
                 type="button"
-                aria-pressed={side === s}
-                className={side === s ? "active" : ""}
-                onClick={() => setSide(s)}
-              >
-                {s} USD
-              </button>
+                aria-pressed={side === orderSide}
+                className={side === orderSide ? "active" : ""}
+                onClick={() => setSide(orderSide)}
+                >
+                {orderSide} USD
+                </button>
             ))}
-          </div>
+            </div>
         </fieldset>
         <label>
           Quantity · USD
@@ -114,10 +115,10 @@ export function OrderTicket({
           Use current spot
         </button>
         <p className="hint">
-          {side === "Buy"
-            ? "Buy fills when spot is less or equal than your limit."
-            : "Sell fills when spot is higher or equal than your limit."}{" "}
-          Execution uses the current spot, including price improvement.
+            {side === OrderSide.Buy
+                ? "Buy fills when spot is less than or equal to your limit."
+                : "Sell fills when spot is greater than or equal to your limit."}{" "}
+            Execution uses the current spot, including price improvement.
         </p>
         <button className="submit" disabled={busy || !connected}>
           {busy ? "Processing…" : `Place ${side.toLowerCase()} limit →`}

@@ -1,5 +1,7 @@
 import type { Order } from "../models";
 import { price } from "../utils/format";
+import { OrderSide } from "../constants/orderSide";
+
 interface OrderBookProps {
   pending: Order[];
   busy: boolean;
@@ -38,7 +40,7 @@ export function OrderBook({
               <tr key={o.id}>
                 <td>
                   {o.pair}{" "}
-                  <em className={o.side === "Buy" ? "positive" : "negative"}>
+                  <em className={o.side === OrderSide.Buy ? "positive" : "negative"}>
                     {o.side}
                   </em>
                 </td>

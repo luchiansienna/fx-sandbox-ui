@@ -4,6 +4,7 @@ import type { Snapshot, Order } from "../models";
 import { request } from "../api/request";
 import { price } from "../utils/format";
 import { CURRENCY_PAIRS, type CurrencyPair } from "../constants/currencyPairs";
+import { OrderSide } from "../constants/orderSide";
 
 // Call once in App: all panels share this account state and polling loop.
 export function useTradingSandbox() {
@@ -12,7 +13,7 @@ export function useTradingSandbox() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [pair, setPair] = useState<CurrencyPair>(CURRENCY_PAIRS[0]);
-  const [side, setSide] = useState("Buy");
+  const [side, setSide] = useState<OrderSide>(OrderSide.Buy);
   const [quantity, setQuantity] = useState("1000");
   const [limit, setLimit] = useState("");
   const [busy, setBusy] = useState(false);
