@@ -1,5 +1,6 @@
 import { CurrencyPair } from "./constants/currencyPairs";
 import { OrderSide } from "./constants/orderSide";
+import { OrderStatus } from "./constants/orderStatus";
 
 export type Order = {
   id: string;
@@ -7,7 +8,7 @@ export type Order = {
   side: OrderSide;
   quantity: number;
   limitPrice: number;
-  status: string;
+  status: OrderStatus;
   createdAt: string;
   fillPrice: number | null;
   filledAt: string | null;
